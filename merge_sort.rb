@@ -36,7 +36,7 @@ end
 
 describe '#merge_sort' do
   it 'works' do
-    merge_sort((0..1000).to_a.reverse).must_equal((0..1000).to_a)
-    merge_sort([8, 7, 9, 5, 6, 1, 4, 2, 3]).must_equal([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    merge_sort((0..100_000).to_a.reverse).must_equal((0..100_000).to_a)
+    #merge_sort([8, 7, 9, 5, 6, 1, 4, 2, 3]).must_equal([1, 2, 3, 4, 5, 6, 7, 8, 9])
   end
 end

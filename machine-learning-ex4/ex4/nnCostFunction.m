@@ -83,6 +83,9 @@ for i = 1:m
 end
 
 J = (1 / m) * tmpSum;
+Theta1(1:size(Theta1, 1), 1) = 0;
+Theta2(1:size(Theta2, 1), 1) = 0;
+J = J + (lambda / (2 * m)) * (sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)));
 
 % -------------------------------------------------------------
 

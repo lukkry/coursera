@@ -63,6 +63,8 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 tmpSum = 0;
+bDelta1 = zeros(hidden_layer_size, input_layer_size + 1);
+bDelta2 = zeros(num_labels, hidden_layer_size + 1);
 
 for i = 1:m
   tmpY = zeros(num_labels, 1);
@@ -80,12 +82,24 @@ for i = 1:m
   h = a3;
 
   tmpSum = tmpSum + sum(-tmpY .* log(h) - (1 - tmpY) .* log(1 .- h));
+
+  sDelta3 = a3 - tmpY;
+  sDelta2 = (Theta2' * sDelta3) .* [1; sigmoidGradient(z2)];
+
+  bDelta1 = bDelta1 + (sDelta2(2:end) * a1');
+  bDelta2 = bDelta2 + (sDelta3 * a2');
 end
 
 J = (1 / m) * tmpSum;
 Theta1(1:size(Theta1, 1), 1) = 0;
 Theta2(1:size(Theta2, 1), 1) = 0;
 J = J + (lambda / (2 * m)) * (sum(sum(Theta1.^2)) + sum(sum(Theta2.^2)));
+
+Theta1(:, 1) = 0;
+Theta1_grad = ((1 / m) * bDelta1) + ((lambda / m) * Theta1);
+
+Theta2(:, 1) = 0;
+Theta2_grad = ((1 / m) * bDelta2) + ((lambda / m) * Theta2);
 
 % -------------------------------------------------------------
 
